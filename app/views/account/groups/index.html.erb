@@ -1,6 +1,6 @@
 <div class="col-md-12">
 
-  <h2 class="text-center"> 我加入的讨论版 </h2>
+  <h2 class="text-center"> 我发表过的文章 </h2>
 
   <table class="table">
     <thead>
@@ -17,12 +17,15 @@
       <% @groups.each do |group| %>
         <tr>
           <td> # </td>
-          <td> <%= link_to(group.title, group_path(group)) %> </td>
-          <td> <%= group.description %> </td>
-          <td> <%= group.posts.count %> </td>
-          <td> <%= group.updated_at %> </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+          <td><%= link_to(group.title, group_path(group)) %></td>
+          <td><%= simple_format(group.description) %></td>
+          <td> <%= group.user.email %> </td>
+          <td>
+            <% if cuurent_user && current_user == group.user %>
+              <%= link_to("Edit", edit_group_path(group), class: "btn-sm btn-default")%>
+              <%= link_to("Delete",group_path(group),     class: "btn-sm btn-default",
+                          method: :delete, data: { confirm: "Are you sure?" } )%>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
